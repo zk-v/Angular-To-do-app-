@@ -1,0 +1,49 @@
+<h1 class="display-4 text-center mt-3 ">To-Do List</h1>
+<div class="container shadow p-3 mb-5 bg-white rounded">
+  <div class="input-group mt-3 mb-3">
+    <select class="custom-select" (change)="onSelectedTaskStage($event)">
+      <option selected value="Started">Started</option>
+      <option value="Not yet started">Not yet started</option>
+      <option value="Done">Done</option>
+    </select>
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Title</span>
+    </div>
+    <input type="text" class="form-control" aria-label="Text input with dropdown button" (change)="getTitle($event)">
+  </div>
+
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Message</span>
+    </div>
+    <textarea class="form-control" aria-label="With textarea"(change)="getMessage($event)"></textarea>
+  </div>
+
+  <div class="input-group mt-3 mb-3">
+    <input type="submit" name="submit" value="Add Task" class="btn btn-primary" (click)='addTask()'>
+  </div>
+</div>
+
+<div *ngFor="let task of tasks; let i = index" class="container shadow p-3 mb-5 bg-white rounded" [ngStyle]="{'text-decoration': task.taskStage === 'Done' ? 'line-through' : 'none'}">
+  <div>
+    <div class="alert" [ngClass]="{
+      'alert-success': task.taskStage === 'Done',
+      'alert-warning': task.taskStage === 'Started',
+      'alert-danger': task.taskStage === 'Not yet started'
+      }">
+      <span>{{ task.taskStage | titlecase }} </span>
+      <span *ngIf="task.dateTask">
+        | {{ task.dateTask | date: 'h:mm:ss' }} |
+        {{ task.dateTask | date: 'dd. MM. yyyy' }}
+      </span>
+    </div>
+    <h1 *ngIf="task.title">Title: {{ task.title | titlecase }}</h1>
+    <p *ngIf="task.message">Message: {{ task.message | titlecase }}</p>
+    <div>
+      <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteTask(i)"></i>
+    </div>
+  </div>
+</div>
