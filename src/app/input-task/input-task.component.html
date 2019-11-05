@@ -26,8 +26,8 @@
   </div>
 </div>
 
-<div *ngFor="let task of tasks; let i = index" class="container shadow p-3 mb-5 bg-white rounded" [ngStyle]="{'text-decoration': task.taskStage === 'Done' ? 'line-through' : 'none'}">
-  <div>
+<div *ngFor="let task of tasks; let i = index" class="container p-3 mb-5 bg-white" [ngStyle]="{'text-decoration': task.taskStage === 'Done' ? 'line-through' : 'none'}">
+  <div class="card">
     <div class="alert" [ngClass]="{
       'alert-success': task.taskStage === 'Done',
       'alert-warning': task.taskStage === 'Started',
@@ -39,10 +39,15 @@
         {{ task.dateTask | date: 'dd. MM. yyyy' }}
       </span>
     </div>
-    <h1 *ngIf="task.title">Title: {{ task.title | titlecase }}</h1>
-    <p *ngIf="task.message">Message: {{ task.message | titlecase }}</p>
-    <div>
-      <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteTask(i)"></i>
+    <div class="card-body">
+      <h1 class="card-title" *ngIf="task.title">{{ task.title | titlecase }}</h1>
+      <p class="card-text" *ngIf="task.message">{{ task.message | titlecase }}</p>
+    </div>
+    <div class="card-footer text-muted">
+      <div>
+        <span (click)="task.taskStage = 'Done'"><i class="fa fa-check" aria-hidden="true"></i> Mark as completed</span>
+        <span (click)="deleteTask(i)"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove</span>
+      </div>
     </div>
   </div>
 </div>
